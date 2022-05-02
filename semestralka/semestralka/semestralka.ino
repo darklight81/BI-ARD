@@ -19,7 +19,7 @@ int myTime;
 int snakeLen = 1;
 int direction = 0; // 0 == UP, 1 == RIGHT, 2 == DOWN, 3 == LEFT
 const int eepromAddress = 42;
-const int renderSpeed = 200; // in milis
+const int renderSpeed = 400; // in milis
 
 //loads highscore from EEPROM if there's any;
 int setHighscore()
@@ -126,22 +126,24 @@ void setBackground()
     EsploraTFT.fill(0, 0, 0);
     EsploraTFT.rect(20, 20, screenWidth - 30, screenHeight - 30);
 }
-// checks if the snake is not out of border or if he is at the place where food is
+// checks if the snake hit itself or is not out of border or if he is at the place where food is
 void checkPosition()
-{
-    if (tmpSnake[0][0] < 22 || tmpSnake[0][0] > screenHeight - 15 || tmpSnake[0][1] < 22 || tmpSnake[0][1] > screenWidth - 17)
-    {
-        Serial.println("OUT OF BORDER");
-        gameStatus = false;
+{   
+    for (int i = 1; i < snakeLen; i++){
+      if (tmpSnake[0][0] == tmpSnake[i][0] && tmpSnake[0][1] == tmpSnake[i][1])
+          gameStatus = false;
     }
+    if (tmpSnake[0][0] < 22 || tmpSnake[0][0] > screenHeight - 15 || tmpSnake[0][1] < 22 || tmpSnake[0][1] > screenWidth - 17)
+        gameStatus = false;
+        
     else if (tmpSnake[0][0] >= foodHeight && tmpSnake[0][0] <= foodHeight + 5 && tmpSnake[0][1] >= foodWidth && tmpSnake[0][1] <= foodWidth + 5)
     {
-        Serial.println("EATEN");
         scoreUpdate = true;
         score += 1;
         foodEaten = true;
-        if (snakeLen < 10)
+        if (snakeLen < 10){
             snakeLen++;
+        }
         Esplora.tone(523);
     }
 }
@@ -152,9 +154,6 @@ void renderSnake()
     EsploraTFT.fill(255, 255, 255);
     for (int i = snakeLen - 1; i > 0; i--)
     {
-        Serial.print(tmpSnake[i][0]);
-        Serial.print(", ");
-        Serial.println(tmpSnake[i][1]);
         tmpSnake[i][0] = tmpSnake[i - 1][0];
         tmpSnake[i][1] = tmpSnake[i - 1][1];
     }
@@ -173,12 +172,8 @@ void renderSnake()
         tmpSnake[0][1] -= 5;
         break;
     }
-    Serial.print("snakelen: ");
-    Serial.println(snakeLen);
     for (int i = 0; i < snakeLen; i++)
-    {
         EsploraTFT.rect(tmpSnake[i][1], tmpSnake[i][0], 5, 5);
-    }
 }
 
 void spawnFood()
@@ -245,7 +240,7 @@ void loop()
     renderSnake();
     checkPosition();
     myTime = millis();
-  while ( millis() - myTime < renderSpeed
+  while ( millis() - myTime < renderSpeed )
      getDirection();
   Esplora.noTone();
 }
