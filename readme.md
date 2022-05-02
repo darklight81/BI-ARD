@@ -25,13 +25,45 @@ void spawnFood()
         foodWidth -= foodWidth % 5;
         foodEaten = !foodEaten;
     }
-    //Serial.println((String)"Height: "+foodHeight+", width: "+foodWidth);
     EsploraTFT.stroke(255, 255, 255);
     EsploraTFT.fill(255, 255, 255);
     EsploraTFT.rect(foodWidth, foodHeight, 5, 5);
 }
 ```
+Food needs to be spawned everytime the snake eats it. The global boolean foodEaten represent the state of the eaten food, if the snake hits the place where food is, it is set to True, then with the help of random the position of food on the board is decided. Food is then calibrated to match the width of snake and printed on the TFT display.
 
+### Snake rendering
+```
+void renderSnake()
+{
+    EsploraTFT.stroke(255, 255, 255);
+    EsploraTFT.fill(255, 255, 255);
+    for (int i = snakeLen - 1; i > 0; i--)
+    {
+        tmpSnake[i][0] = tmpSnake[i - 1][0];
+        tmpSnake[i][1] = tmpSnake[i - 1][1];
+    }
+    switch (direction)
+    {
+    case 0:
+        tmpSnake[0][0] -= 5;
+        break;
+    case 1:
+        tmpSnake[0][1] += 5;
+        break;
+    case 2:
+        tmpSnake[0][0] += 5;
+        break;
+    case 3:
+        tmpSnake[0][1] -= 5;
+        break;
+    }
+    for (int i = 0; i < snakeLen; i++)
+        EsploraTFT.rect(tmpSnake[i][1], tmpSnake[i][0], 5, 5);
+}
+
+```
+Snake needs to be rerender every tick of the game as it is in move for the whole game. tmpSnake is a 2D array where the height and width where each 'body part' of the snake needs to be rerendered. In the first for loop we update all of the snakes body parts apart from head which is decided in the switch. It takes in mind direction in which the snake is going and puts it in the right place. Lastly loop is called to render the snake on the actual position. 
 
 
 ## User handbook
