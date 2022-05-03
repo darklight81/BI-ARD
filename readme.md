@@ -12,6 +12,8 @@ After the snake encounters the food (meaning it is at the same place as the food
 
 The game is controlled by the buttons.
 
+The code of the game is also available at [this github respository](https://gitlab.fit.cvut.cz/sulovigo/bi-ard)
+
 ## Documentation
 ```
 void setHighscore()
