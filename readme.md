@@ -2,13 +2,15 @@
 
 ## Summary
 
+The game is implemented of the Arduino Esplora.
+
 The game supports all features that were set out during theoretical preperation.
 
 The game starts right away. Before the start it tries to load highscore from eeprom, if the highscore wasn't set yet, it is considered 0. Game ends when the user hits the outline of the level or hit the part of the snake. If the score reached during the game is higher than the highscore, the game sets the score as the new highscore.
 
-After the snake encounter the food (meaning it is at the same place as the food), the game plays a sound. The snake gets larger (up to 10 'blocks') and the game speeds up. It plays a sound when the game ends as well.
+After the snake encounters the food (meaning it is at the same place as the food), the game plays a sound. The snake gets larger (up to 10 'blocks'). It plays a sound when the game ends as well.
 
-The game is controlled by the the esplora buttons.
+The game is controlled by the buttons.
 
 ## Documentation
 ```
@@ -46,12 +48,12 @@ Checks if the snake didn't colide with any object or himself or if it's  not at 
 void renderSnake()
 
 ```
-Renders snake on the board
+Renders the snake on the board
 
 ```
 void spawnFood()
 ```
-Spawns 'food' on the random place on the board. 
+Spawns *food* on the random place on the board. 
 
 ```
 void getDirection()
@@ -79,6 +81,6 @@ Main game loop
 ## User handbook
 After uploading the game to the Esplora, your goal is to survive as long as possible while obtaining as much food as possible. But it won't be that easy. If you hit the border, game ends, so watch out! Also, when you obtain food, the snake will get bigger, dont hit any part of the snake either!
 
-You control the movement of snake by Esplora buttons. If you set a new highscore it will be perserved even after unplugging the Esplora.
+You control the movement of the snake by Esplora buttons. If you set a new highscore it will be perserved even after unplugging the Esplora.
 
 Good luck!
